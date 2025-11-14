@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="text-center py-5">
+    <h1 class="display-4 fw-bold">Aprende algo nuevo hoy</h1>
+    <p class="lead text-muted">Explora nuestras categorías y mejora tus habilidades profesionales.</p>
+</div>
+
+<div class="row">
+    {% for cat in categorias %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-0">
+                <div class="card-body text-center p-4">
+                    <div class="mb-3 text-primary">
+                        <i class="bi bi-collection-play" style="font-size: 3rem;"></i>
+                    </div>
+                    
+                    <h3 class="card-title">{{ cat.nombre }}</h3>
+                    <p class="card-text text-muted">Descubre los mejores cursos de {{ cat.nombre }} disponibles para ti.</p>
+                    
+                    <a href="/categoria/{{ cat.id }}" class="btn btn-outline-primary w-100">Ver Cursos</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

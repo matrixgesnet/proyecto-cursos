@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="py-4">
+    <a href="/" class="text-decoration-none text-secondary mb-3 d-inline-block">
+        <i class="bi bi-arrow-left"></i> Volver al inicio
+    </a>
+
+    <div class="row align-items-center mb-4">
+        <div class="col">
+            <h1 class="fw-bold">Cursos de {{ categoria.nombre }}</h1>
+            <p class="text-muted">Explora el contenido disponible en esta área.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for curso in cursos %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-sm h-100 border-0">
+                    <div class="card-header bg-light border-0 py-4 text-center">
+                        <i class="bi bi-laptop text-secondary" style="font-size: 3rem;"></i>
+                    </div>
+                    
+                    <div class="card-body d-flex flex-column">
+                        <h4 class="card-title">{{ curso.titulo }}</h4>
+                        <p class="card-text text-muted small">Aprende todo sobre {{ curso.titulo }} con lecciones en video prácticas.</p>
+                        
+                        <div class="mt-auto pt-3">
+                            <a href="/curso/{{ curso.id }}" class="btn btn-primary w-100 rounded-pill">
+                                <i class="bi bi-play-circle-fill"></i> Entrar al Curso
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-12 text-center py-5">
+                <h3 class="text-muted">Aún no hay cursos en esta categoría 😢</h3>
+                <p>Vuelve pronto para ver novedades.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

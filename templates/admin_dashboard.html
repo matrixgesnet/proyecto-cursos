@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+    
+    <div class="row mb-4 align-items-center">
+        <div class="col">
+            <h1 class="display-5 fw-bold text-dark">
+                <i class="bi bi-speedometer2"></i> Panel de Control
+            </h1>
+            <p class="text-muted">Gestiona el contenido de tu plataforma desde aquí.</p>
+        </div>
+        <div class="col-auto">
+            <a href="/" class="btn btn-outline-secondary">
+                <i class="bi bi-eye"></i> Ver Sitio Web
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0 text-center hover-effect">
+                <div class="card-body p-5">
+                    <div class="mb-3 text-primary">
+                        <i class="bi bi-folder-plus" style="font-size: 3rem;"></i>
+                    </div>
+                    <h3 class="card-title">Categorías</h3>
+                    <p class="card-text text-muted">Crea nuevos temas (ej: Marketing, Programación).</p>
+                    <a href="{{ url_for('crear_categoria') }}" class="btn btn-primary w-100 stretched-link">
+                        Crear Categoría
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0 text-center hover-effect">
+                <div class="card-body p-5">
+                    <div class="mb-3 text-success">
+                        <i class="bi bi-journal-plus" style="font-size: 3rem;"></i>
+                    </div>
+                    <h3 class="card-title">Cursos</h3>
+                    <p class="card-text text-muted">Agrega un curso nuevo a una categoría existente.</p>
+                    <a href="{{ url_for('crear_curso') }}" class="btn btn-success w-100 stretched-link">
+                        Crear Curso
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm border-0 text-center hover-effect">
+                <div class="card-body p-5">
+                    <div class="mb-3 text-danger">
+                        <i class="bi bi-play-btn-fill" style="font-size: 3rem;"></i>
+                    </div>
+                    <h3 class="card-title">Videos</h3>
+                    <p class="card-text text-muted">Sube clases (YouTube) a tus cursos creados.</p>
+                    <a href="{{ url_for('crear_video') }}" class="btn btn-danger w-100 stretched-link">
+                        Subir Video
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<hr class="my-5">
+
+    <h2 class="mb-4"><i class="bi bi-list-check"></i> Gestionar Contenido</h2>
+
+    <div class="card shadow-sm border-0 mb-5">
+        <div class="card-header bg-white py-3">
+            <h5 class="mb-0 fw-bold">Mis Cursos</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                            <th>Categoría</th>
+                            <th class="text-end">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for curso in cursos %}
+                        <tr>
+                            <td>#{{ curso.id }}</td>
+                            <td>{{ curso.titulo }}</td>
+                            <td><span class="badge bg-secondary">{{ curso.categoria.nombre }}</span></td>
+                            <td class="text-end">
+                                <a href="/admin/editar-curso/{{ curso.id }}" class="btn btn-sm btn-outline-primary me-2">
+                                    <i class="bi bi-pencil"></i> Editar
+                                </a>
+                                <a href="/admin/borrar-curso/{{ curso.id }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Estás seguro de borrar este curso? Se borrarán sus videos también.')">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white fw-bold">Categorías</div>
+                <ul class="list-group list-group-flush">
+                    {% for cat in categorias %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ cat.nombre }}
+                        <a href="/admin/borrar-categoria/{{ cat.id }}" class="text-danger" onclick="return confirm('¿Borrar categoría?')">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white fw-bold">Últimos Videos</div>
+                <ul class="list-group list-group-flush">
+                    {% for video in videos %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="text-truncate" style="max-width: 200px;">{{ video.titulo }}</div>
+                        <a href="/admin/borrar-video/{{ video.id }}" class="text-danger" onclick="return confirm('¿Borrar video?')">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                </div>
+            </div>
+        </div>
+{% endblock %}

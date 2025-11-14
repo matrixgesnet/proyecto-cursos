@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white py-3 border-bottom-0">
+                <h4 class="mb-0 fw-bold text-danger"><i class="bi bi-youtube"></i> Nuevo Video</h4>
+            </div>
+            <div class="card-body p-4">
+                <form action="" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Título de la Clase</label>
+                        <input type="text" name="titulo" class="form-control" placeholder="Ej: Lección 1: Introducción" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Enlace de YouTube</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
+                            <input type="text" name="url" class="form-control" placeholder="https://www.youtube.com/watch?v=..." required>
+                        </div>
+                        <div class="form-text">Copia y pega el enlace directo del navegador.</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Asignar al Curso</label>
+                        <select name="curso_id" class="form-select" required>
+                            <option value="" disabled selected>Selecciona el curso...</option>
+                            {% for curso in cursos %}
+                                <option value="{{ curso.id }}">{{ curso.titulo }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger btn-lg">Subir Video</button>
+                        <a href="/admin" class="btn btn-light text-muted">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

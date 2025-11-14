@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container d-flex flex-column justify-content-center align-items-center" style="min-height: 60vh;">
+    
+    <div class="text-center p-5 shadow rounded bg-white" style="max-width: 600px;">
+        <div class="mb-4">
+            <span class="display-1">🔒</span>
+        </div>
+        
+        <h1 class="fw-bold mb-3">Contenido Exclusivo</h1>
+        <p class="lead text-muted mb-4">
+            Para acceder a los videos del curso <strong>{{ curso.titulo }}</strong>, necesitas inscribirte primero. 
+            ¡Es rápido y gratis!
+        </p>
+        
+        <div class="d-grid gap-2 col-md-8 mx-auto">
+            <a href="/inscribirse/{{ curso.id }}" class="btn btn-success btn-lg shadow-sm">
+                <i class="bi bi-check-circle-fill"></i> Inscribirse Gratis Ahora
+            </a>
+            
+            <a href="/" class="btn btn-outline-secondary mt-2">
+                Explorar otros cursos
+            </a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

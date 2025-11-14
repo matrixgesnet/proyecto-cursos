@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-warning text-dark py-3 border-bottom-0">
+                <h4 class="mb-0 fw-bold"><i class="bi bi-pencil-square"></i> Editar Curso</h4>
+            </div>
+            <div class="card-body p-4">
+                <form action="" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Título del Curso</label>
+                        <input type="text" name="titulo" class="form-control" value="{{ curso.titulo }}" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Categoría</label>
+                        <select name="categoria_id" class="form-select" required>
+                            {% for cat in categorias %}
+                                <option value="{{ cat.id }}" {% if cat.id == curso.categoria_id %}selected{% endif %}>
+                                    {{ cat.nombre }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-warning">Guardar Cambios</button>
+                        <a href="/admin" class="btn btn-light text-muted">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
