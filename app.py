@@ -40,7 +40,7 @@ login_manager.login_view = 'login' # A donde ir si no estás logueado
 class Usuario(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
+    password_hash = db.Column(db.String(256), nullable=False)
     # NUEVO CAMPO: Por defecto es False (usuario normal)
     is_admin = db.Column(db.Boolean, default=False)
 
