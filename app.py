@@ -434,43 +434,46 @@ def create_db():
     db.create_all()
     print('Base de datos creada')
 
-
 # --- COMANDO PARA CREAR DATOS DE PRUEBA ---
 @app.cli.command('init-data')
 def init_data():
-    """Crea categorías, cursos y videos de prueba"""
+    """Crea datos de prueba y un admin (SOLO SI NO EXISTEN)."""
     
-    # 1. Crear Categorías
+    # 1. VERIFICACIÓN DE SEGURIDAD (Idempotencia)
+    # Buscamos si el admin ya existe
+    admin_existente = Usuario.query.filter_by(email='admin@cursos.com').first()
+    
+    if admin_existente:
+        print('El usuario admin ya existe. No se crearon datos nuevos.')
+        return # Detiene la función aquí mismo
+        
+    # --- Si no existe, continúa y crea todo ---
+    print('Creando datos iniciales (admin, categorías, etc.)...')
+    
+    # 2. Crear Admin
+    admin = Usuario(email='admin@cursos.com', password_hash=generate_password_hash('admin123'), is_admin=True)
+    db.session.add(admin)
+    
+    # 3. Crear Categorías
     cat_sql = Categoria(nombre='SQL y Bases de Datos')
     cat_python = Categoria(nombre='Python desde Cero')
-    cat_web = Categoria(nombre='Desarrollo Web')
-    
-    db.session.add_all([cat_sql, cat_python, cat_web])
+    db.session.add_all([cat_sql, cat_python])
     db.session.commit() # Guardamos para que tengan ID
 
-    # 2. Crear Cursos dentro de esas categorías
+    # 4. Crear Cursos
     curso1 = Curso(titulo='SQL para Principiantes', categoria_id=cat_sql.id)
-    curso2 = Curso(titulo='Consultas Avanzadas MySQL', categoria_id=cat_sql.id)
-    curso3 = Curso(titulo='Introducción a Python', categoria_id=cat_python.id)
-    
-    db.session.add_all([curso1, curso2, curso3])
+    curso2 = Curso(titulo='Introducción a Python', categoria_id=cat_python.id)
+    db.session.add_all([curso1, curso2])
     db.session.commit()
-    
-    # 3. Crear Videos (Usaremos enlaces "embed" de YouTube)
-    # Nota: Para que funcionen en tu web, los links de youtube deben tener "/embed/"
+
+    # 5. Crear Videos
     vid1 = Video(titulo='Instalación de MySQL', url_video='https://www.youtube.com/embed/WuBcTJnIuzo', curso_id=curso1.id)
     vid2 = Video(titulo='Select y From', url_video='https://www.youtube.com/embed/yPu6qV5byu4', curso_id=curso1.id)
-    vid3 = Video(titulo='Hola Mundo en Python', url_video='https://www.youtube.com/embed/DcojabcVqTE', curso_id=curso2.id)
-
-    db.session.add_all([vid1, vid2, vid3])
-    db.session.commit()
-
-    # --- PARTE NUEVA: CREAR EL ADMINISTRADOR ---
-    # Creamos un usuario específico para ti
-    admin = Usuario(email='admin@cursos.com', password_hash=generate_password_hash('admin123'), is_admin=True)
+    db.session.add(vid1)
+    db.session.add(vid2)
     
-    db.session.add(admin)
     db.session.commit()
     
-    print("¡Datos creados! Usuario Admin: admin@cursos.com / Clave: admin123")
+    print("¡Datos de prueba creados! Usuario Admin: admin@cursos.com / Clave: admin123")
+
 
